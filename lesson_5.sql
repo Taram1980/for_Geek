@@ -87,4 +87,30 @@ SELECT * FROM storehouses_products ;
 SELECT * FROM storehouses_products ORDER BY value = 0, value;
 
 
+-- Практическое задание теме «Агрегация данных»
+-- Подсчитайте средний возраст пользователей в таблице users.
+SELECT round(avg(TIMESTAMPDIFF(YEAR, birthday_at, Now())), 2) AS mean_age FROM users;
+
+
+-- Подсчитайте количество дней рождения, которые приходятся на каждый из дней недели. Следует учесть, что необходимы дни недели текущего года, а не года рождения.
+
+SELECT count(*) AS count, date_format(concat(YEAR(now()), '-', MONTH(birthday_at), '-', DAY(birthday_at)), '%W') AS day_week FROM users GROUP BY day_week ORDER BY count DESC;
+
+-- (по желанию) Подсчитайте произведение чисел в столбце таблицы.
+DROP TABLE IF EXISTS catalogs;
+CREATE TABLE catalogs (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL
+) COMMENT = 'Каталог';
+
+INSERT INTO catalogs VALUES
+  (NULL, 'Процессоры'),
+  (NULL, 'Материнские платы'),
+  (NULL, 'Видеокарты'),
+  (NULL, 'Жесткие диски'),
+  (NULL, 'Оперативная память');
+
+SELECT exp(sum(ln(id))) AS result FROM catalogs c ;
+
+
   
